@@ -23,13 +23,20 @@ def input_int(prompt):
         except ValueError:
             print("Please input an Integer")
             continue 
+        break
     return integer
     
 # This function repeatedly prompts for input until something other than whitespace is entered.
 # See Point 2 of the "Functions in admin.py" section of the assignment brief.
 def input_something(prompt):
-    pass
-
+    while True:
+        something = input(prompt);
+        if len(something.strip()) == 0:
+            print("Please enter something other than whitespace")
+            continue
+        else:
+            break
+        return something
 
 
 # This function opens "data.txt" in write mode and writes data_list to it in JSON format.
@@ -51,56 +58,57 @@ def save_data(data_list):
 # The rest is up to you.
 print('Welcome to the "Would You Rather" Admin Program.')
 
-while True:
-    print('\nChoose [a]dd, [l]ist, [s]earch, [v]iew, [d]elete or [q]uit.')
-    choice = input('> ').lower() # Convert input to lowercase to make choice selection case-insensitive.
-        
-    if choice == 'a':
-        # Add a new question.
-        # See Point 3 of the "Requirements of admin.py" section of the assignment brief.
-        pass
+if __name__ == "__main__":
+    while True:
+        print('\nChoose [a]dd, [l]ist, [s]earch, [v]iew, [d]elete or [q]uit.')
+        choice = input('> ').lower() # Convert input to lowercase to make choice selection case-insensitive.
+            
+        if choice == 'a':
+            # Add a new question.
+            # See Point 3 of the "Requirements of admin.py" section of the assignment brief.
+            pass
 
-
-    
-    elif choice == 'l':
-        # List the current questions.
-        # See Point 4 of the "Requirements of admin.py" section of the assignment brief.
-        pass
-
-
-
-    elif choice == 's':
-        # Search the current questions.
-        # See Point 5 of the "Requirements of admin.py" section of the assignment brief.
-        pass
-
-
-
-    elif choice == 'v':
-        # View a question.
-        # See Point 6 of the "Requirements of admin.py" section of the assignment brief.
-        pass
 
         
-
-    elif choice == 'd':
-        # Delete a question.
-        # See Point 7 of the "Requirements of admin.py" section of the assignment brief.
-        pass
-
-        
-
-    elif choice == 'q':
-        # Quit the program.
-        # See Point 8 of the "Requirements of admin.py" section of the assignment brief.
-        pass
+        elif choice == 'l':
+            # List the current questions.
+            # See Point 4 of the "Requirements of admin.py" section of the assignment brief.
+            pass
 
 
 
-    else:
-        # Print "invalid choice" message.
-        # See Point 9 of the "Requirements of admin.py" section of the assignment brief.
-        pass
+        elif choice == 's':
+            # Search the current questions.
+            # See Point 5 of the "Requirements of admin.py" section of the assignment brief.
+            pass
+
+
+
+        elif choice == 'v':
+            # View a question.
+            # See Point 6 of the "Requirements of admin.py" section of the assignment brief.
+            pass
+
+            
+
+        elif choice == 'd':
+            # Delete a question.
+            # See Point 7 of the "Requirements of admin.py" section of the assignment brief.
+            pass
+
+            
+
+        elif choice == 'q':
+            # Quit the program.
+            # See Point 8 of the "Requirements of admin.py" section of the assignment brief.
+            pass
+
+
+
+        else:
+            # Print "invalid choice" message.
+            # See Point 9 of the "Requirements of admin.py" section of the assignment brief.
+            pass
 
 
 
