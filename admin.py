@@ -42,7 +42,8 @@ def input_something(prompt):
 # This function opens "data.txt" in write mode and writes data_list to it in JSON format.
 # See Point 3 of the "Functions in admin.py" section of the assignment brief.
 def save_data(data_list):
-    pass
+    with open("data.txt", "w") as output:
+        json.dump(data_list, output)
 
 
 
