@@ -45,14 +45,13 @@ def save_data(data_list):
     with open("data.txt", "w") as output:
         json.dump(data_list, output)
 
-
-
 # Here is where you attempt to open data.txt and read the data into a "data" variable.
 # If the file does not exist or does not contain JSON data, set "data" to an empty list instead.
 # This is the only time that the program should need to read anything from the file.
 # See Point 1 of the "Requirements of admin.py" section of the assignment brief.
-
-
+def load_data():
+    with open("data.txt") as text:
+        return json.load(text)
 
 # Print welcome message, then enter the endless loop which prompts the user for a choice.
 # See Point 2 of the "Requirements of admin.py" section of the assignment brief.
