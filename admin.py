@@ -1,5 +1,5 @@
-# Name:  
-# Student Number:  
+# Name: Ryan White 
+# Student Number: 10554949  
 
 # This file is provided to you as a starting point for the "admin.py" program of Assignment 2
 # of Programming Principles in Semester 1, 2021.  It aims to give you just enough code to help ensure
@@ -17,10 +17,14 @@ import json
 # This function repeatedly prompts for input until an integer is entered.
 # See Point 1 of the "Functions in admin.py" section of the assignment brief.
 def input_int(prompt):
-    pass
-
-
-
+    while True:
+        try:
+            integer = int(input(prompt)) 
+        except ValueError:
+            print("Please input an Integer")
+            continue 
+    return integer
+    
 # This function repeatedly prompts for input until something other than whitespace is entered.
 # See Point 2 of the "Functions in admin.py" section of the assignment brief.
 def input_something(prompt):
