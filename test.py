@@ -5,4 +5,4 @@ from json import dump, load
 # input_boolean("Type Yes or No")
 addQuestion()
 listQuestions()
-
+searchQuestions()

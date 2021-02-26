@@ -89,12 +89,28 @@ def addQuestion():
     save_data(questions)
 
 def listQuestions():
-    for i, question in enumerate(load_data()):
-        print(i+1, f'{question["option_1"]}/{question["option_2"]}') 
+    questions = load_data()
+    if len(questions):
+        for i, question in enumerate(questions):
+            print(i+1, f'{question["option_1"]}/{question["option_2"]}') 
+    else:
+        print("No questions saved")
 
 def searchQuestions():
-    pass
+    def questionHasTerm(term, question):
+        option_1 = question[1]["option_1"].lower()
+        option_2 = question[1]["option_2"].lower()
+        query = term.lower()
+        return query in option_1 or query in option_2
 
+    query = input_something("Enter a search term: ")
+    questions = load_data()
+    matches = [question for question in enumerate(questions) if questionHasTerm(query, question)]
+    if len(matches):
+        for i, match in matches:
+            print(i+1, f'{match["option_1"]}/{match["option_2"]}') 
+    else:
+        print("No questions saved")
 def viewQuestion():
     pass
 
