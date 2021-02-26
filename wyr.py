@@ -1,47 +1,69 @@
-# Name:  
-# Student Number:  
+# Name: Ryan White 
+# Student Number: 10554949  
 
-# This file is provided to you as a starting point for the "wyr.py" program of Assignment 2
-# of Programming Principles in Semester 1, 2021.  It aims to give you just enough code to help ensure
-# that your program is well structured.  Please use this file as the basis for your assignment work.
-# You are not required to reference it.
+from tkinter import *
+from tkinter import messagebox
+from tkinter.ttk import *
+from admin import load_data, save_data
 
-# The "pass" command tells Python to do nothing.  It is simply a placeholder to ensure that the starter file runs smoothly.
-# They are not needed in your completed program.  Replace them with your own code as you complete the assignment.
-
-
-# Import the required modules.
-import tkinter
-import tkinter.messagebox
-import json
-
-
-class ProgramGUI:
+class App(Tk):
 
     def __init__(self):
-        # This is the constructor of the class.
-        # It is responsible for loading and reading the data from the text file and creating the user interface.
-        # See the "Constructor of the GUI Class of wyr.py" section of the assignment brief.  
-        pass
+        super().__init__()
+        self.title("Would you rather")
+        self.geometry("600x400")
+        self.questions = load_data(onError=self.onInvalidData)
+        self.show_mature = messagebox.askyesno(message="Would you like to see mature content")
+        if  self.show_mature:
+            self.filtered = self.questions
+        else:
+            self.filtered = [question for question in self.questions if not question['mature']]
+        if not len(self.filtered):
+            messagebox.showerror(message="There are no questions available")
+            self.destroy()
+        self.createWidgets() 
+        self.question_num = 0
+        self.show_question()
 
-
+    def createWidgets(self):
+        self.progress = StringVar()
+        self.progressLabel = Label(self, textvariable=self.progress)
+        self.progressLabel.pack()
+        self.option_1 = StringVar()
+        self.option_2 = StringVar()
+        self.button_1 = Button(self, textvariable=self.option_1, command=lambda: self.record_vote('votes_1'))
+        self.button_2 = Button(self, textvariable=self.option_2, command=lambda: self.record_vote('votes_2'))
+        self.button_1.pack()
+        self.button_2.pack()
+    
+    def onInvalidData(self, error):
+        messagebox.showerror(title="File Error", message=f'Missing/Invalid file, {error}') and self.destroy()
 
     def show_question(self):
-        # This method is responsible for displaying the current question's options in the GUI and ending the program.
-        # See Point 1 of the "Methods in the GUI class of wyr.py" section of the assignment brief.
-        pass
-
-
+        if self.question_num < len(self.filtered):
+            question = self.filtered[self.question_num]
+            self.progress.set(f'Question {self.question_num+1} of {len(self.filtered)}')
+            self.option_1.set(question['option_1'])
+            self.option_2.set(question['option_2'])
+        else:
+            messagebox.showinfo(message="Thanks for playing")
+            self.destroy()
 
     def record_vote(self, vote):   
-        # This method is responsible for recording the user's choice when they select an option of a question.
-        # See Point 2 of the "Methods in the GUI class of wyr.py" section of the assignment brief.
-        pass
+        question = self.filtered[self.question_num]
+        question[vote] += 1
+        save_data(self.questions)
+        self.question_num += 1
+        groups = { 
+            "votes_1": question["votes_1"] > question["votes_2"],
+            "votes_2": question["votes_2"] > question["votes_1"]
+        }
+        group = "majority" if groups[vote] else "minority"
+        messagebox.showinfo(message=f'Your vote was recorded, you are in the {group}!')
+        self.show_question()
 
-
-
-# Create an object of the ProgramGUI class to begin the program.
-gui = ProgramGUI()
-
-
+if __name__ == "__main__":
+    # https://docs.python.org/3/library/tkinter.html#a-simple-hello-world-program
+    app = App()
+    app.mainloop()
 # If you have been paid to write this program, please delete this comment.

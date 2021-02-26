@@ -62,12 +62,19 @@ def save_data(data_list):
 # progress of the other, because the chance of them both opening the buffer simultaneouslty
 # during a single call is so low, but otherwise if an admin progrem closes while another is
 # open, when the second closes it will overwrite all the work of the first
-def load_data():
+def load_data(onError=None):
     path = "data.txt"
     if os.path.isfile(path):
         with open(path) as text:
-            return json.load(text)
+            try:
+                data = json.load(text)
+            except ValueError as e:
+                onError(e)
+                print("Data is invalid")
+                data = []
+            return data
     else:
+        onError("File doesn't exist")
         return []
 
 def addQuestion():
@@ -182,10 +189,10 @@ def deleteQuestion(index):
     else:
         print("No questions saved")
 
-# Print welcome message, then enter the endless loop which prompts the user for a choice.
-print('Welcome to the "Would You Rather" Admin Program.')
 
 if __name__ == "__main__":
+    # Print welcome message, then enter the endless loop which prompts the user for a choice.
+    print('Welcome to the "Would You Rather" Admin Program.')
     indexableRegex = re.compile(r'([vdt]) ?(\d*)') # For checking if choice has an index
     while True:
         print('\nChoose [a]dd, [l]ist, [s]earch, [v]iew, [d]elete, [t]oggle or [q]uit.')
