@@ -7,6 +7,8 @@ import json
 import os
 # Import textwrap to truncate options that are too long
 from textwrap import shorten
+# Import re so can check for index options
+import re
 
 # This function repeatedly prompts for input until an integer is entered.
 # See Point 1 of the "Functions in admin.py" section of the assignment brief.
@@ -53,6 +55,13 @@ def save_data(data_list):
 # If the file does not exist or does not contain JSON data, set "data" to an empty list instead.
 # This is the only time that the program should need to read anything from the file.
 # See Point 1 of the "Requirements of admin.py" section of the assignment brief.
+#
+# I call this function whenever data needs to be read even though it would be
+# more efficient to just load it once at the start because it makes it more resistance to 
+# the possibility that 2 admin programs try to run at once, without one overwriting the
+# progress of the other, because the chance of them both opening the buffer simultaneouslty
+# during a single call is so low, but otherwise if an admin progrem closes while another is
+# open, when the second closes it will overwrite all the work of the first
 def load_data():
     path = "data.txt"
     if os.path.isfile(path):
@@ -99,13 +108,13 @@ def listQuestions():
     else:
         print("No questions saved")
 
-def searchQuestions():
+def searchQuestions(query):
     def questionHasTerm(term, question):
         option_1 = question[1]["option_1"].lower()
         option_2 = question[1]["option_2"].lower()
         query = term.lower()
         return query in option_1 or query in option_2
-    query = input_something("Enter search term: ")
+    query = query or input_something("Enter search term: ")
     questions = load_data()
     if len(questions):
         matches = [question for question in enumerate(questions) if questionHasTerm(query, question)]
@@ -135,10 +144,10 @@ def displayQuestion(question):
     question['mature'] and print('This question is for mature audiences only')
     displayVotes(question["votes_1"], question["votes_2"])
 
-def viewQuestion():
+def viewQuestion(index):
     questions = load_data()
     if len(questions):
-        index = input_int("Question number to view: ") - 1
+        index = (index or input_int("Question number to view: ")) - 1
         if 0 <= index < len(questions):
             displayQuestion(questions[index])
         else:
@@ -146,10 +155,10 @@ def viewQuestion():
     else:
         print("No questions saved")
 
-def toggleQuestion():
+def toggleQuestion(index):
     questions = load_data()
     if len(questions):
-        index = input_int("Question number to toggle maturity: ") - 1
+        index = (index or input_int("Question number to toggle maturity: ")) - 1
         if 0 <= index < len(questions):
             mature = questions[index]["mature"]
             questions[index]["mature"] = not mature
@@ -160,10 +169,10 @@ def toggleQuestion():
     else:
         print("No questions saved")
 
-def deleteQuestion():
+def deleteQuestion(index):
     questions = load_data()
     if len(questions):
-        index = input_int("Question number to delete: ") - 1
+        index = (index or input_int("Question number to delete: ")) - 1
         if 0 <= index < len(questions):
             del questions[index]
             save_data(questions)
@@ -177,25 +186,37 @@ def deleteQuestion():
 print('Welcome to the "Would You Rather" Admin Program.')
 
 if __name__ == "__main__":
+    indexableRegex = re.compile(r'([vdt]) ?(\d*)') # For checking if choice has an index
     while True:
         print('\nChoose [a]dd, [l]ist, [s]earch, [v]iew, [d]elete, [t]oggle or [q]uit.')
-        choice = input('> ').lower() # Convert input to lowercase to make choice selection case-insensitive.
-        if choice == 'a':
+        # Convert input to lowercase to make choice selection case-insensitive.
+        choice = input('> ').lower()
+        if choice.startswith("s"): # Search the current questions.
+            # Allows, "s", "s query" or "squery"
+            searchQuestions(choice[1:].strip())
+        elif indexableRegex.fullmatch(choice):
+            # If the choice is "v", "d", or "t"
+            # followed by either nothing, a number or a space and a number
+            # for example the following are all allowed
+            # v 1, v1, v, v111
+            # View 1, View 1, View, View 111
+            match = indexableRegex.fullmatch(choice)
+            command = match.group(1)
+            index = int(match.group(2)) if match.group(2) else None
+            commands = {
+                "v": viewQuestion, # View a question
+                "d": deleteQuestion, # Delete a question
+                "t": toggleQuestion, # Toggle question maturity
+            }
+            commands[command](index) # Run chosen command with index
+        elif choice == 'a':
             addQuestion() # Add a new question.
         elif choice == 'l':
             listQuestions() # List the current questions.
-        elif choice == 's':
-            searchQuestions() # Search the current questions.
-        elif choice == 'v':
-            viewQuestion() # View a question.
-        elif choice == 'd':
-            deleteQuestion() # Delete a question.
-        elif choice == 't':
-            toggleQuestion() # Toggle whether a question is mature.
         elif choice == 'q':
            break # Quit the program.
         else:
-            print("Invalid Choice, try again") # Print "invalid choice" message.
+            print("Invalid Choice, try again")
     print("Goodbye!")
 
 # If you have been paid to write this program, please delete this comment.
