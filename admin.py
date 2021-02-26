@@ -135,7 +135,7 @@ def displayQuestion(question):
 def viewQuestion():
     questions = load_data()
     if len(questions):
-        index = input_int("Enter the index of a question: ") - 1
+        index = input_int("Question number to view: ") - 1
         if 0 <= index < len(questions):
             displayQuestion(questions[index])
         else:
@@ -144,52 +144,39 @@ def viewQuestion():
         print("No questions saved")
 
 def deleteQuestion():
-    pass
-
+    questions = load_data()
+    if len(questions):
+        index = input_int("Question number to delete: ") - 1
+        if 0 <= index < len(questions):
+            del questions[index]
+            save_data(questions)
+            print("Question deleted")
+        else:
+            print("Invalid index number")
+    else:
+        print("No questions saved")
 
 # Print welcome message, then enter the endless loop which prompts the user for a choice.
-# See Point 2 of the "Requirements of admin.py" section of the assignment brief.
-# The rest is up to you.
 print('Welcome to the "Would You Rather" Admin Program.')
 
 if __name__ == "__main__":
     while True:
         print('\nChoose [a]dd, [l]ist, [s]earch, [v]iew, [d]elete or [q]uit.')
         choice = input('> ').lower() # Convert input to lowercase to make choice selection case-insensitive.
-            
         if choice == 'a':
-            # Add a new question.
-            # See Point 3 of the "Requirements of admin.py" section of the assignment brief.
-            addQuestion()
-        
+            addQuestion() # Add a new question.
         elif choice == 'l':
-            # List the current questions.
-            # See Point 4 of the "Requirements of admin.py" section of the assignment brief.
-            listQuestions()
-
+            listQuestions() # List the current questions.
         elif choice == 's':
-            # Search the current questions.
-            # See Point 5 of the "Requirements of admin.py" section of the assignment brief.
-            searchQuestions()
-
+            searchQuestions() # Search the current questions.
         elif choice == 'v':
-            # View a question.
-            # See Point 6 of the "Requirements of admin.py" section of the assignment brief.
-            viewQuestion()
-
+            viewQuestion() # View a question.
         elif choice == 'd':
-            # Delete a question.
-            # See Point 7 of the "Requirements of admin.py" section of the assignment brief.
-            deleteQuestion()
-
+            deleteQuestion() # Delete a question.
         elif choice == 'q':
-            # Quit the program.
-            # See Point 8 of the "Requirements of admin.py" section of the assignment brief.
-           break
-
+           break # Quit the program.
         else:
-            # Print "invalid choice" message.
-            # See Point 9 of the "Requirements of admin.py" section of the assignment brief.
-            print("Invalid Choice, try again")
+            print("Invalid Choice, try again") # Print "invalid choice" message.
+    print("Goodbye!")
 
 # If you have been paid to write this program, please delete this comment.
