@@ -36,8 +36,18 @@ def input_something(prompt):
             continue
         else:
             break
-        return something
+    return something
 
+def input_boolean(prompt):
+    while True:
+        value = input_something(prompt)
+        if value.lower() in ["yes", "y"]:
+            return True
+        elif value.lower() in ["no", "n"]:
+            return False
+        else:
+            print("Not a valid answer")
+            continue
 
 # This function opens "data.txt" in write mode and writes data_list to it in JSON format.
 # See Point 3 of the "Functions in admin.py" section of the assignment brief.
@@ -54,7 +64,16 @@ def load_data():
         return json.load(text)
 
 def addQuestion():
-    pass
+    questions = data = load_data()
+    question = {
+        "option_1": input_something("Enter first option: "),
+        "option_2": input_something("Enter second option: "),
+        "mature": input_boolean("Is this question for mature audiences only?: "),
+        "votes_1": 0,
+        "votes_2": 0,
+    }
+    questions.append(question)
+    save_data(questions)
 
 def listQuestions():
     pass
