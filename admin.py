@@ -146,6 +146,20 @@ def viewQuestion():
     else:
         print("No questions saved")
 
+def toggleQuestion():
+    questions = load_data()
+    if len(questions):
+        index = input_int("Question number to toggle maturity: ") - 1
+        if 0 <= index < len(questions):
+            mature = questions[index]["mature"]
+            questions[index]["mature"] = not mature
+            save_data(questions)
+            print(f'Question maturity toggled from {mature} to {not mature}')
+        else:
+            print("Invalid index number")
+    else:
+        print("No questions saved")
+
 def deleteQuestion():
     questions = load_data()
     if len(questions):
@@ -164,7 +178,7 @@ print('Welcome to the "Would You Rather" Admin Program.')
 
 if __name__ == "__main__":
     while True:
-        print('\nChoose [a]dd, [l]ist, [s]earch, [v]iew, [d]elete or [q]uit.')
+        print('\nChoose [a]dd, [l]ist, [s]earch, [v]iew, [d]elete, [t]oggle or [q]uit.')
         choice = input('> ').lower() # Convert input to lowercase to make choice selection case-insensitive.
         if choice == 'a':
             addQuestion() # Add a new question.
@@ -176,6 +190,8 @@ if __name__ == "__main__":
             viewQuestion() # View a question.
         elif choice == 'd':
             deleteQuestion() # Delete a question.
+        elif choice == 't':
+            toggleQuestion() # Toggle whether a question is mature.
         elif choice == 'q':
            break # Quit the program.
         else:
