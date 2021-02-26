@@ -122,6 +122,7 @@ def displayVotes(votes_1, votes_2):
         noun_1 = "votes" if votes_1 != 1 else "vote"
         noun_2 = "votes" if votes_2 != 1 else "vote"
         print(f'Option 1 has received {votes_1} ({ratio_1}%) {noun_1}, Option 2 has received {votes_2} ({ratio_2}%) {noun_2}.') 
+        40 < ratio_1 < 60 and print("This question is divisive!")
     else:
         print("Nobody has answered this question")
 

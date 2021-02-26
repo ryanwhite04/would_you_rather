@@ -17,6 +17,13 @@ questions = [
         "votes_2": 0,
     },
     {
+        "option_1": "Have a dog",
+        "option_2": "Have a cat",
+        "mature": False,
+        "votes_1": 99,
+        "votes_2": 101,
+    },
+    {
         "option_1": "This is a really long option that is well over 40 characters so it truncates",
         "option_2": "123456789 123456789 123456789 1234567890",
         "mature": False,
@@ -31,6 +38,6 @@ save_data(questions)
 # addQuestion()
 listQuestions()
 searchQuestions()
-# viewQuestion()
+viewQuestion()
 # deleteQuestion()
 # listQuestions()
