@@ -5,6 +5,8 @@
 import json
 # Import os to check if file exists
 import os
+# Import textwrap to truncate options that are too long
+from textwrap import shorten
 
 # This function repeatedly prompts for input until an integer is entered.
 # See Point 1 of the "Functions in admin.py" section of the assignment brief.
@@ -80,12 +82,18 @@ def addQuestion():
     questions.append(question)
     save_data(questions)
 
+def listQuestion(i, question):
+    def shortenOption(option):
+        return shorten(option + "?", width=40, placeholder="...")
+    option_1 = shortenOption(question["option_1"])
+    option_2 = shortenOption(question["option_2"])
+    print(f' {i+1}) {option_1} / {option_2}') 
+
 def listQuestions():
     print("List of questions:")
     questions = load_data()
     if len(questions):
-        for i, question in enumerate(questions):
-            print(i+1, f'{question["option_1"]}/{question["option_2"]}') 
+        [listQuestion(*question) for question in enumerate(questions)]
     else:
         print("No questions saved")
 
@@ -101,8 +109,7 @@ def searchQuestions():
         matches = [question for question in enumerate(questions) if questionHasTerm(query, question)]
         if len(matches):
             print("Search results:")
-            for i, match in matches:
-                print(f' {i+1}) {match["option_1"]} / {match["option_2"]}') 
+            [listQuestion(*match) for match in matches]
         else:
             print("No results found")
     else:
