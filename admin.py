@@ -12,7 +12,8 @@
 
 # Import the json module to allow us to read and write data in JSON format.
 import json
-
+# Import os to check if file exists
+import os
 
 # This function repeatedly prompts for input until an integer is entered.
 # See Point 1 of the "Functions in admin.py" section of the assignment brief.
@@ -60,14 +61,26 @@ def save_data(data_list):
 # This is the only time that the program should need to read anything from the file.
 # See Point 1 of the "Requirements of admin.py" section of the assignment brief.
 def load_data():
-    with open("data.txt") as text:
-        return json.load(text)
+    path = "data.txt"
+    if os.path.isfile(path):
+        with open(path) as text:
+            return json.load(text)
+    else:
+        return []
 
 def addQuestion():
-    questions = data = load_data()
+    questions = load_data()
+    option1 = input_something("Enter first option: ")
+    while True:
+        option2 = input_something("Enter second option: ")
+        if option2 == option1:
+            print("The options should be different")
+            continue
+        else:
+            break
     question = {
-        "option_1": input_something("Enter first option: "),
-        "option_2": input_something("Enter second option: "),
+        "option_1": option1[0:-1] if option1.endswith("?") else option1,
+        "option_2": option2[0:-1] if option2.endswith("?") else option2,
         "mature": input_boolean("Is this question for mature audiences only?: "),
         "votes_1": 0,
         "votes_2": 0,
@@ -76,7 +89,8 @@ def addQuestion():
     save_data(questions)
 
 def listQuestions():
-    pass
+    for i, question in enumerate(load_data()):
+        print(i+1, f'{question["option_1"]}/{question["option_2"]}') 
 
 def searchQuestions():
     pass
