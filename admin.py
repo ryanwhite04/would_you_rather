@@ -93,7 +93,9 @@ def listQuestions():
     print("List of questions:")
     questions = load_data()
     if len(questions):
+        mature = sum([question["mature"] for question in questions])
         [listQuestion(*question) for question in enumerate(questions)]
+        print(f'{mature} out of {len(questions)} questions are for mature audiences')
     else:
         print("No questions saved")
 
