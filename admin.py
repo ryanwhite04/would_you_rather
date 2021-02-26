@@ -1,15 +1,6 @@
 # Name: Ryan White 
 # Student Number: 10554949  
 
-# This file is provided to you as a starting point for the "admin.py" program of Assignment 2
-# of Programming Principles in Semester 1, 2021.  It aims to give you just enough code to help ensure
-# that your program is well structured.  Please use this file as the basis for your assignment work.
-# You are not required to reference it.
-
-# The "pass" command tells Python to do nothing.  It is simply a placeholder to ensure that the starter file runs smoothly.
-# They are not needed in your completed program.  Replace them with your own code as you complete the assignment.
-
-
 # Import the json module to allow us to read and write data in JSON format.
 import json
 # Import os to check if file exists
@@ -104,14 +95,16 @@ def searchQuestions():
         option_2 = question[1]["option_2"].lower()
         query = term.lower()
         return query in option_1 or query in option_2
-
     query = input_something("Enter search term: ")
     questions = load_data()
-    matches = [question for question in enumerate(questions) if questionHasTerm(query, question)]
-    if len(matches):
-        print("Search results:")
-        for i, match in matches:
-            print(f' {i+1}) {match["option_1"]} / {match["option_2"]}') 
+    if len(questions):
+        matches = [question for question in enumerate(questions) if questionHasTerm(query, question)]
+        if len(matches):
+            print("Search results:")
+            for i, match in matches:
+                print(f' {i+1}) {match["option_1"]} / {match["option_2"]}') 
+        else:
+            print("No results found")
     else:
         print("No questions saved")
 
