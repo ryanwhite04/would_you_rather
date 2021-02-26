@@ -53,6 +53,22 @@ def load_data():
     with open("data.txt") as text:
         return json.load(text)
 
+def addQuestion():
+    pass
+
+def listQuestions():
+    pass
+
+def searchQuestions():
+    pass
+
+def viewQuestion():
+    pass
+
+def deleteQuestion():
+    pass
+
+
 # Print welcome message, then enter the endless loop which prompts the user for a choice.
 # See Point 2 of the "Requirements of admin.py" section of the assignment brief.
 # The rest is up to you.
@@ -66,50 +82,36 @@ if __name__ == "__main__":
         if choice == 'a':
             # Add a new question.
             # See Point 3 of the "Requirements of admin.py" section of the assignment brief.
-            pass
-
-
+            addQuestion()
         
         elif choice == 'l':
             # List the current questions.
             # See Point 4 of the "Requirements of admin.py" section of the assignment brief.
-            pass
-
-
+            listQuestions()
 
         elif choice == 's':
             # Search the current questions.
             # See Point 5 of the "Requirements of admin.py" section of the assignment brief.
-            pass
-
-
+            searchQuestions()
 
         elif choice == 'v':
             # View a question.
             # See Point 6 of the "Requirements of admin.py" section of the assignment brief.
-            pass
-
-            
+            viewQuestion()
 
         elif choice == 'd':
             # Delete a question.
             # See Point 7 of the "Requirements of admin.py" section of the assignment brief.
-            pass
-
-            
+            deleteQuestion()
 
         elif choice == 'q':
             # Quit the program.
             # See Point 8 of the "Requirements of admin.py" section of the assignment brief.
-            pass
-
-
+           break
 
         else:
             # Print "invalid choice" message.
             # See Point 9 of the "Requirements of admin.py" section of the assignment brief.
-            pass
-
-
+            print("Invalid Choice, try again")
 
 # If you have been paid to write this program, please delete this comment.
