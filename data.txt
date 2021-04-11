@@ -1,0 +1,30 @@
+[
+    {
+        "option_1": "Fight a horse-sized duck",
+        "option_2": "Fight 100 duck-sized horsed",
+        "mature": true,
+        "votes_1": 4,
+        "votes_2": 5
+    },
+    {
+        "option_1": "Be invisible",
+        "option_2": "Be able to fly",
+        "mature": false,
+        "votes_1": 1,
+        "votes_2": 0
+    },
+    {
+        "option_1": "Have a dog",
+        "option_2": "Have a cat",
+        "mature": false,
+        "votes_1": 100,
+        "votes_2": 101
+    },
+    {
+        "option_1": "This is a really long option that is well over 40 characters so it truncates",
+        "option_2": "123456789 123456789 123456789 1234567890",
+        "mature": false,
+        "votes_1": 1,
+        "votes_2": 99999
+    }
+]
